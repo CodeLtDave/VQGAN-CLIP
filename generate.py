@@ -52,8 +52,14 @@ if not torch.cuda.is_available():
 elif get_device_properties(0).total_memory <= 2 ** 33:  # 2 ** 33 = 8,589,934,592 bytes = 8 GB
     default_image_size = 304  # <8GB VRAM
 
+# Pre Parsing Promts
+#vq_pre_parser_promts = argparse.ArgumentParser(description='Image generation using VQGAN+CLIP')
+#vq_pre_parser_promts.add_argument("-p",    "--prompts", type=str, help="Text prompts", default=None, dest='prompts')
+#args_pre_promts = vq_pre_parser_promts.parse_args()
+
 # Create the parser
 vq_parser = argparse.ArgumentParser(description='Image generation using VQGAN+CLIP')
+
 
 # Add the arguments
 vq_parser.add_argument("-p",    "--prompts", type=str, help="Text prompts", default=None, dest='prompts')
@@ -104,6 +110,14 @@ if args.cudnn_determinism:
 
 if not args.augments:
    args.augments = [['Af', 'Pe', 'Ji', 'Er']]
+
+if args.output=="output.png": 
+    args.output=args.prompts 
+    args.output=args.output.replace("|", "_")
+    args.output=args.output.replace(":", "")
+    args.output = args.output[:50] + (args.output[50:] and '..')
+    args.output="../results/"+args.output+".png"
+
 
 # Split text prompts using the pipe character (weights are split later)
 if args.prompts:

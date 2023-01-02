@@ -17,3 +17,5 @@ steps/
 # Files
 output.png
 steps.mp4
+.ipynb_checkpoints/generate-checkpoint.py
+output.mp4
